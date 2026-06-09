@@ -1,0 +1,24 @@
+# ── RUNTIME dependencies — everything `python app.py` needs ──────────────────
+# Install on the deployment machine:  pip install -r requirements.txt
+# (No PySpark, no LightGBM, no training libs — runtime is lightweight.)
+
+# Web layer (flexible minimums are fine here)
+flask>=2.3.0
+flask-cors>=4.0.0
+flask-caching>=2.1.0
+python-dotenv>=1.0.0      # optional .env support (config.py degrades gracefully)
+
+# Data IO
+pandas>=2.0.0,<3.0.0
+pyarrow>=14.0.0           # read processed_data/*.parquet
+
+# ── Model-inference stack — PINNED to the training environment ───────────────
+# These versions MUST match the env that produced models/*.pkl, otherwise the
+# pickles fail to unpickle (e.g. sklearn 1.7 cannot load a 1.6.1 ColumnTransformer,
+# and numpy 2.x breaks numpy-1.x pickles). Versions recorded in
+# models/best_xgb_model.meta.json. Re-pin these if you re-train.
+numpy==1.26.4
+scipy==1.15.3
+scikit-learn==1.6.1       # Pipeline (OneHotEncoder/ColumnTransformer) + KMeans
+xgboost==3.2.0            # production risk model (best_xgb_model.pkl)
+joblib==1.4.2             # model (de)serialisation

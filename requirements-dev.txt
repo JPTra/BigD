@@ -1,0 +1,8 @@
+# ── OFFLINE / DEV dependencies — NOT needed to run app.py ────────────────────
+# Only required to (re)build data & models, or re-run the benchmark.
+# Install on the ETL / training machine:  pip install -r requirements-dev.txt
+-r requirements.txt
+
+pyspark>=3.5.0           # scripts/etl_pyspark.py (the only place Spark runs)
+lightgbm>=4.0.0          # scripts/benchmark_models.py
+psutil>=5.9.0            # scripts/benchmark_models.py (RAM measurement)

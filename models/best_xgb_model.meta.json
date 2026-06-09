@@ -1,0 +1,40 @@
+{
+  "model_file": "best_xgb_model.pkl",
+  "model_type": "XGBoost (sklearn Pipeline: OneHotEncoder + XGBClassifier)",
+  "task": "binary classification \u2014 late delivery risk",
+  "feature_order": [
+    "Shipping Mode",
+    "Market",
+    "Order Region",
+    "Days for shipment (scheduled)",
+    "Order Item Quantity",
+    "Sales",
+    "Order Item Discount Rate",
+    "order_month",
+    "demand_score"
+  ],
+  "categorical": [
+    "Shipping Mode",
+    "Market",
+    "Order Region"
+  ],
+  "numeric": [
+    "Days for shipment (scheduled)",
+    "Order Item Quantity",
+    "Sales",
+    "Order Item Discount Rate",
+    "order_month",
+    "demand_score"
+  ],
+  "classes": [
+    0,
+    1
+  ],
+  "positive_class": 1,
+  "size_mb": 0.35,
+  "smoke_latency_ms": 3.259,
+  "library_versions": {
+    "scikit_learn": "1.6.1",
+    "xgboost": "3.2.0"
+  }
+}

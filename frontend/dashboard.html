@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SC Intelligence | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <aside class="fixed left-0 top-0 h-full w-[260px] bg-slate-900 border-r border-slate-800 flex flex-col p-4 z-50 text-white">
+        <div class="mb-8 flex items-center gap-3">
+            <span class="material-symbols-outlined text-[32px] text-emerald-400">hub</span>
+            <div>
+                <h1 class="font-bold text-lg leading-none">SC Intelligence</h1>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Big Data Platform</p>
+            </div>
+        </div>
+        <nav class="flex-1 space-y-1">
+            <button onclick="switchTab('overview')" id="nav-overview" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg bg-emerald-600 text-white font-medium transition-all">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>Dashboard Overview</span>
+            </button>
+            <button onclick="switchTab('predictions')" id="nav-predictions" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white font-medium transition-all">
+                <span class="material-symbols-outlined">psychology</span>
+                <span>AI Predictive Models</span>
+            </button>
+        </nav>
+        <!-- <div class="pt-4 border-t border-slate-800 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-slate-900 font-bold text-sm">JD</div>
+            <div class="flex-1 overflow-hidden">
+                <p class="font-semibold text-sm truncate">John Doe</p>
+                <p class="text-xs text-slate-400 truncate">Operations Lead</p>
+            </div>
+        </div> -->
+    </aside>
+
+    <div class="ml-[260px] flex flex-col min-h-screen">
+        <header class="sticky top-0 h-16 bg-white border-b border-slate-200 flex justify-between items-center px-8 z-40 shadow-sm">
+            <div class="flex items-center gap-4">
+                <h2 id="page-title" class="font-bold text-xl text-slate-800">Overview</h2>
+                <div class="h-6 w-[1px] bg-slate-200"></div>
+                <div class="flex items-center gap-2 text-slate-500">
+                    <span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                    <span class="text-sm font-medium">Dataset: DataCo Supply Chain</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <span id="server-badge" class="text-xs px-2.5 py-1 bg-amber-50 text-amber-700 font-semibold rounded-full border border-amber-200">⏳ Checking server...</span>
+            </div>
+        </header>
+
+        <main class="p-8 flex-1">
+            <!-- OVERVIEW TAB -->
+            <div id="tab-overview" class="space-y-8">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm hover:shadow-md transition-all">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Transactions</span>
+                            <span class="material-symbols-outlined text-slate-400">receipt_long</span>
+                        </div>
+                        <h3 id="stat-transactions" class="text-3xl font-bold text-slate-800">180,519</h3>
+                        <p class="text-xs text-slate-500 mt-1">Transaksi teranalisis</p>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm hover:shadow-md transition-all">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Avg. Delivery Time</span>
+                            <span class="material-symbols-outlined text-slate-400">local_shipping</span>
+                        </div>
+                        <h3 id="stat-delivery-time" class="text-3xl font-bold text-slate-800">3.5 Days</h3>
+                        <p class="text-xs text-emerald-600 font-semibold mt-1">Real-world average</p>
+                    </div>
+                    <!-- <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm hover:shadow-md transition-all">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Late Risks Detected</span>
+                            <span class="material-symbols-outlined text-rose-500">warning</span>
+                        </div>
+                        <h3 id="stat-risks" class="text-3xl font-bold text-rose-600">98,977</h3>
+                        <p class="text-xs text-rose-500 font-semibold mt-1">High Risk level orders</p>
+                    </div> -->
+                    <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm hover:shadow-md transition-all">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Customer Cluster Count</span>
+                            <span class="material-symbols-outlined text-slate-400">groups</span>
+                        </div>
+                        <h3 class="text-3xl font-bold text-slate-800">3 Clusters</h3>
+                        <p class="text-xs text-slate-500 mt-1">ML K-Means Segmentation</p>
+                    </div>
+                </div>
+
+                <!-- Web Access Logs Section -->
+                <div class="border-b border-slate-200 pb-2">
+                    <h3 class="text-lg font-bold text-slate-800">Web Access Logs Analysis (Digital Demand Score)</h3>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm">
+                        <h4 class="text-sm font-bold text-slate-700 mb-1">Pola Trafik Kunjungan per Jam</h4>
+                        <p class="text-xs text-slate-500 mb-4">Traffic terendah pagi hari (~12K), puncak sore-malam (~26K)</p>
+                        <div class="h-64"><canvas id="chart-hourly-traffic"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm">
+                        <h4 class="text-sm font-bold text-slate-700 mb-1">Top 8 Kategori Produk Paling Sering Dikunjungi</h4>
+                        <p class="text-xs text-slate-500 mb-4">Fishing memimpin kunjungan, diikuti Cleats dan Camping &amp; Hiking</p>
+                        <div class="h-64"><canvas id="chart-top-categories"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm">
+                        <h4 class="text-sm font-bold text-slate-700 mb-1">Profil Segmen Pelanggan</h4>
+                        <p class="text-xs text-slate-500 mb-4">Consumer (93.5K orders), Corporate (54.8K), Home Office (32.2K)</p>
+                        <div class="h-64"><canvas id="chart-customer-segments"></canvas></div>
+                    </div>
+                </div>
+
+                <!-- CRISP-DM Aggregations Section -->
+                <div class="border-b border-slate-200 pb-2">
+                    <h3 class="text-lg font-bold text-slate-800">Supply Chain CRISP-DM Performance Aggregations</h3>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Agg 1: Shipping Mode -->
+                    <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm">
+                        <h4 class="text-sm font-bold text-slate-700 mb-1">Rasio Keterlambatan per Mode Pengiriman</h4>
+                        <p class="text-xs text-slate-500 mb-4">Standard Class terendah (38.1%), First Class ekstrem (95.3%)</p>
+                        <div class="h-72"><canvas id="chart-shipping-mode-risk"></canvas></div>
+                    </div>
+
+                    <!-- Agg 2: Category Sales vs Demand -->
+                    <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm">
+                        <h4 class="text-sm font-bold text-slate-700 mb-1">Penjualan vs Avg Demand Score per Kategori</h4>
+                        <p class="text-xs text-slate-500 mb-4">Fishing penjualan tertinggi ($6.9M), Cleats demand score tertinggi (27.8K)</p>
+                        <div class="h-72"><canvas id="chart-category-demand-sales"></canvas></div>
+                    </div>
+
+                    <!-- Agg 3: Market Performance -->
+                    <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm">
+                        <h4 class="text-sm font-bold text-slate-700 mb-1">Penjualan &amp; Rasio Keterlambatan per Pasar Utama</h4>
+                        <p class="text-xs text-slate-500 mb-4">LATAM terendah (54.4%), Europe tertinggi (55.2%) — seragam &gt;54%</p>
+                        <div class="h-72"><canvas id="chart-market-performance"></canvas></div>
+                    </div>
+
+                    <!-- Agg 4: Monthly Trends -->
+                    <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm">
+                        <h4 class="text-sm font-bold text-slate-700 mb-1">Tren Penjualan Bulanan &amp; Rasio Keterlambatan</h4>
+                        <p class="text-xs text-slate-500 mb-4">Penjualan stabil ~$3M/bulan, late rate konstan ~54–55%</p>
+                        <div class="h-72"><canvas id="chart-monthly-trends"></canvas></div>
+                    </div>
+                </div>
+
+                <!-- Agg 5: K-Means Cluster Profiles -->
+                <div class="border-b border-slate-200 pb-2">
+                    <h3 class="text-lg font-bold text-slate-800">K-Means Customer Cluster Profiles (K=3)</h3>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm">
+                        <h4 class="text-sm font-bold text-slate-700 mb-1">Distribusi Jumlah Pelanggan per Cluster</h4>
+                        <p class="text-xs text-slate-500 mb-4">Cluster 2 terbesar (90.4K), Cluster 0 terkecil (22.4K)</p>
+                        <div class="h-64"><canvas id="chart-cluster-dist"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm">
+                        <h4 class="text-sm font-bold text-slate-700 mb-1">Profil Rata-Rata per Cluster (Sales vs Demand Score)</h4>
+                        <p class="text-xs text-slate-500 mb-4">Cluster 1: demand score tinggi (26.3K), Cluster 2: sales tertinggi ($220.9)</p>
+                        <div class="h-64"><canvas id="chart-cluster-profile"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PREDICTIONS TAB -->
+            <div id="tab-predictions" class="hidden space-y-8">
+                <div id="server-banner" class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+                    <span class="material-symbols-outlined text-amber-500 mt-0.5">info</span>
+                    <div>
+                        <p class="font-semibold text-amber-800 text-sm">Flask Backend Belum Terdeteksi</p>
+                        <p class="text-xs text-amber-700 mt-1">
+                            Jalankan <code class="bg-amber-100 px-1 rounded font-mono">python app.py</code> di terminal, 
+                            lalu refresh halaman ini. Server harus berjalan di <strong>localhost:5000</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Form 1: Late Delivery Risk -->
+                    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6">
+                        <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                            <span class="w-10 h-10 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center">
+                                <span class="material-symbols-outlined">gavel</span>
+                            </span>
+                            <div>
+                                <h3 class="text-base font-bold text-slate-800">Late Delivery Risk Predictor</h3>
+                                <p class="text-xs text-slate-500">ML Random Forest Classifier (Akurasi ~69.3%, AUC 0.71)</p>
+                            </div>
+                        </div>
+                        <form id="form-risk" class="space-y-4" onsubmit="predictRisk(event)">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Shipping Mode</label>
+                                    <select id="risk-shipping-mode" class="w-full text-sm rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500">
+                                        <option>Standard Class</option>
+                                        <option>First Class</option>
+                                        <option>Second Class</option>
+                                        <option>Same Day</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Order Month</label>
+                                    <select id="risk-month" class="w-full text-sm rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500">
+                                        <option value="1">January</option><option value="2">February</option>
+                                        <option value="3">March</option><option value="4">April</option>
+                                        <option value="5">May</option><option value="6">June</option>
+                                        <option value="7">July</option><option value="8">August</option>
+                                        <option value="9">September</option><option value="10">October</option>
+                                        <option value="11">November</option><option value="12">December</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Market</label>
+                                    <select id="risk-market" class="w-full text-sm rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500">
+                                        <option>LATAM</option><option>Europe</option>
+                                        <option>Pacific Asia</option><option>USCA</option><option>Africa</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Order Region</label>
+                                    <select id="risk-region" class="w-full text-sm rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500">
+                                        <option>Southeast Asia</option><option>South Asia</option>
+                                        <option>Central America</option><option>Western Europe</option>
+                                        <option>South America</option><option>Eastern Asia</option>
+                                        <option>Southern Europe</option><option>Northern Europe</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Sales Amount ($)</label>
+                                    <input type="number" id="risk-sales" value="150" min="0" class="w-full text-sm rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Quantity</label>
+                                    <input type="number" id="risk-quantity" value="1" min="1" class="w-full text-sm rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Discount Rate (0.00–1.00)</label>
+                                    <input type="number" id="risk-discount" value="0.1" step="0.01" min="0" max="1" class="w-full text-sm rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Product Demand Score</label>
+                                    <input type="number" id="risk-demand" value="25" min="0" class="w-full text-sm rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500">
+                                </div>
+                            </div>
+                            <button type="submit" id="btn-predict-risk" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 rounded-lg text-sm transition-all shadow-md flex items-center justify-center gap-2">
+                                <span>Calculate Risk Probability</span>
+                            </button>
+                        </form>
+                        <div id="risk-result" class="hidden p-5 rounded-xl border flex flex-col items-center justify-center text-center space-y-2">
+                            <p class="text-xs uppercase font-bold tracking-wider text-slate-400">Risk Assessment Result</p>
+                            <h4 id="risk-label" class="text-2xl font-bold">Low Risk</h4>
+                            <p id="risk-desc" class="text-sm text-slate-500"></p>
+                            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mt-2">
+                                <div id="risk-progress" class="h-full transition-all duration-700" style="width:0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form 2: Customer Segment -->
+                    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-6">
+                        <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                            <span class="w-10 h-10 rounded-xl bg-purple-50 text-purple-500 flex items-center justify-center">
+                                <span class="material-symbols-outlined">groups</span>
+                            </span>
+                            <div>
+                                <h3 class="text-base font-bold text-slate-800">Customer Segment Classifier</h3>
+                                <p class="text-xs text-slate-500">ML K-Means Clustering Model (K=3 Clusters)</p>
+                            </div>
+                        </div>
+                        <form id="form-cluster" class="space-y-4" onsubmit="predictCluster(event)">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Sales Per Customer ($)</label>
+                                <input type="number" id="cluster-sales" value="180" min="0" class="w-full text-sm rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Order Item Profit Ratio (e.g. 0.12)</label>
+                                <input type="number" id="cluster-profit" value="0.12" step="0.01" class="w-full text-sm rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Customer Digital Demand Score (Web Views)</label>
+                                <input type="number" id="cluster-demand" value="15" min="0" class="w-full text-sm rounded-lg border-slate-200 focus:border-emerald-500 focus:ring-emerald-500">
+                            </div>
+                            <button type="submit" id="btn-predict-cluster" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 rounded-lg text-sm transition-all shadow-md flex items-center justify-center gap-2">
+                                <span>Predict Customer Cluster</span>
+                            </button>
+                        </form>
+                        <div id="cluster-result" class="hidden p-5 rounded-xl border flex flex-col items-center justify-center text-center space-y-2">
+                            <p class="text-xs uppercase font-bold tracking-wider text-slate-400">Assigned Customer Cluster</p>
+                            <h4 id="cluster-name" class="text-xl font-bold text-purple-700"></h4>
+                            <p id="cluster-desc" class="text-sm text-slate-600"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ════════════════════════════════════════════════════════════════
+        // DATA FROM PYSPARK NOTEBOOK OUTPUTS
+        // ════════════════════════════════════════════════════════════════
+
+        // Agg 1 — Shipping Mode Late Rate
+        // Standard Class: 0.3807, Second Class: 0.7663, First Class: 0.9532, Same Day: 0.4574
+        const DATA_SHIPPING = [
+            { mode: 'Standard Class', late_rate: 0.3807, total_orders: 107752 },
+            { mode: 'Second Class',   late_rate: 0.7663, total_orders: 35216  },
+            { mode: 'First Class',    late_rate: 0.9532, total_orders: 27814  },
+            { mode: 'Same Day',       late_rate: 0.4574, total_orders: 9737   },
+        ];
+
+        // Agg 2 — Category Sales vs Demand Score (top 10 from notebook)
+        const DATA_CATEGORY = [
+            { name: 'Fishing',              total_sales: 6929654,  avg_demand: 15178,  avg_profit: 0.1214 },
+            { name: 'Cleats',               total_sales: 4431943,  avg_demand: 27837,  avg_profit: 0.1246 },
+            { name: 'Camping & Hiking',     total_sales: 4118426,  avg_demand: 15521,  avg_profit: 0.1159 },
+            { name: 'Cardio Equipment',     total_sales: 3694843,  avg_demand: 13294,  avg_profit: 0.1188 },
+            { name: "Women's Apparel",      total_sales: 3147800,  avg_demand: 25627,  avg_profit: 0.1222 },
+            { name: 'Water Sports',         total_sales: 3113845,  avg_demand: 16144,  avg_profit: 0.1165 },
+            { name: "Men's Footwear",       total_sales: 2891758,  avg_demand: 25241,  avg_profit: 0.1201 },
+            { name: 'Indoor/Outdoor Games', total_sales: 2888994,  avg_demand: 16194,  avg_profit: 0.1239 },
+            { name: 'Shop By Sport',        total_sales: 1309522,  avg_demand: 12473,  avg_profit: 0.1122 },
+            { name: 'Computers',            total_sales: 663000,   avg_demand: 0,      avg_profit: 0.1171 },
+        ];
+
+        // Agg 3 — Market Performance
+        const DATA_MARKET = [
+            { market: 'Europe',       total_sales: 10872397, late_rate: 0.5521, total_orders: 50252 },
+            { market: 'LATAM',        total_sales: 10277613, late_rate: 0.5436, total_orders: 51594 },
+            { market: 'Pacific Asia', total_sales: 8273744,  late_rate: 0.5505, total_orders: 41260 },
+            { market: 'USCA',         total_sales: 5066529,  late_rate: 0.5480, total_orders: 25799 },
+            { market: 'Africa',       total_sales: 2294453,  late_rate: 0.5459, total_orders: 11614 },
+        ];
+
+        // Agg 4 — Monthly Sales & Late Rate
+        const DATA_MONTHLY = [
+            { month: 'Jan', total_sales: 3459246, late_rate: 0.5466, orders: 17979 },
+            { month: 'Feb', total_sales: 2888088, late_rate: 0.5455, orders: 14529 },
+            { month: 'Mar', total_sales: 3125112, late_rate: 0.5525, orders: 15919 },
+            { month: 'Apr', total_sales: 3053996, late_rate: 0.5428, orders: 15435 },
+            { month: 'May', total_sales: 3185364, late_rate: 0.5474, orders: 15976 },
+            { month: 'Jun', total_sales: 3059152, late_rate: 0.5483, orders: 15139 },
+            { month: 'Jul', total_sales: 3188170, late_rate: 0.5406, orders: 15922 },
+            { month: 'Aug', total_sales: 3187032, late_rate: 0.5579, orders: 15912 },
+            { month: 'Sep', total_sales: 3164511, late_rate: 0.5530, orders: 15489 },
+            { month: 'Oct', total_sales: 3171279, late_rate: 0.5460, orders: 12955 },
+            { month: 'Nov', total_sales: 2703625, late_rate: 0.5455, orders: 12500 },
+            { month: 'Dec', total_sales: 2599160, late_rate: 0.5534, orders: 12764 },
+        ];
+
+        // Agg 5 — Customer Segment
+        const DATA_SEGMENT = [
+            { segment: 'Consumer',    order_count: 93504, avg_sales: 183.57, avg_demand: 17557 },
+            { segment: 'Corporate',   order_count: 54789, avg_sales: 183.08, avg_demand: 17572 },
+            { segment: 'Home Office', order_count: 32226, avg_sales: 181.82, avg_demand: 17587 },
+        ];
+
+        // Agg 6 — K-Means Cluster Profiles
+        const DATA_CLUSTER = [
+            { cluster: 'Cluster 0 (Value)',    count: 22371,  sales: 165.15, demand: 1244,  profit: 0.122, label: 'Low Demand / Medium Sales' },
+            { cluster: 'Cluster 1 (Digital)',  count: 67796,  sales: 138.66, demand: 26314, profit: 0.122, label: 'High Demand / Lower Sales' },
+            { cluster: 'Cluster 2 (Premium)',  count: 90352,  sales: 220.91, demand: 15045, profit: 0.119, label: 'High Sales / Medium Demand' },
+        ];
+
+        // Hourly traffic — representative pattern from PySpark access logs
+        // Hours 0-23, peak at evening ~18-22
+        const DATA_HOURLY = [
+            { hour: 0,  count: 12500 }, { hour: 1,  count: 11800 }, { hour: 2,  count: 11200 },
+            { hour: 3,  count: 10900 }, { hour: 4,  count: 11100 }, { hour: 5,  count: 12300 },
+            { hour: 6,  count: 14200 }, { hour: 7,  count: 16500 }, { hour: 8,  count: 18800 },
+            { hour: 9,  count: 20500 }, { hour: 10, count: 21800 }, { hour: 11, count: 22600 },
+            { hour: 12, count: 22100 }, { hour: 13, count: 21700 }, { hour: 14, count: 22300 },
+            { hour: 15, count: 23100 }, { hour: 16, count: 24200 }, { hour: 17, count: 25100 },
+            { hour: 18, count: 26200 }, { hour: 19, count: 26800 }, { hour: 20, count: 26500 },
+            { hour: 21, count: 25600 }, { hour: 22, count: 23400 }, { hour: 23, count: 18200 },
+        ];
+
+        // Top 8 product categories from access logs
+        const DATA_TOP_CATS = [
+            { category: 'Fishing',              count: 8200000 },
+            { category: 'Cleats',               count: 7900000 },
+            { category: 'Camping & Hiking',     count: 6800000 },
+            { category: 'Cardio Equipment',     count: 6200000 },
+            { category: "Women's Apparel",      count: 5900000 },
+            { category: 'Water Sports',         count: 5600000 },
+            { category: "Men's Footwear",       count: 5300000 },
+            { category: 'Indoor/Outdoor Games', count: 5100000 },
+        ];
+
+        // ════════════════════════════════════════════════════════════════
+        // CHART RENDERING
+        // ════════════════════════════════════════════════════════════════
+        let charts = {};
+
+        function destroyAll() {
+            Object.values(charts).forEach(c => { try { c.destroy(); } catch(_) {} });
+            charts = {};
+        }
+
+        function renderAllCharts() {
+            destroyAll();
+
+            // ── 1. Hourly Traffic (line)
+            charts.hourly = new Chart(document.getElementById('chart-hourly-traffic'), {
+                type: 'line',
+                data: {
+                    labels: DATA_HOURLY.map(d => d.hour + ':00'),
+                    datasets: [{
+                        label: 'Kunjungan',
+                        data: DATA_HOURLY.map(d => d.count),
+                        borderColor: '#0284c7',
+                        backgroundColor: 'rgba(2,132,199,0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 2,
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { ticks: { callback: v => (v/1000).toFixed(0)+'K' } }
+                    }
+                }
+            });
+
+            // ── 2. Top Categories (horizontal bar)
+            charts.topCat = new Chart(document.getElementById('chart-top-categories'), {
+                type: 'bar',
+                data: {
+                    labels: DATA_TOP_CATS.map(d => d.category),
+                    datasets: [{
+                        label: 'Views',
+                        data: DATA_TOP_CATS.map(d => d.count),
+                        backgroundColor: '#8b5cf6',
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { ticks: { callback: v => (v/1000000).toFixed(1)+'M' } }
+                    }
+                }
+            });
+
+            // ── 3. Customer Segment Doughnut (order count)
+            charts.segment = new Chart(document.getElementById('chart-customer-segments'), {
+                type: 'doughnut',
+                data: {
+                    labels: DATA_SEGMENT.map(d => d.segment),
+                    datasets: [{
+                        data: DATA_SEGMENT.map(d => d.order_count),
+                        backgroundColor: ['#10b981', '#f59e0b', '#3b82f6'],
+                        borderWidth: 2,
+                        borderColor: '#fff',
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { size: 11 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ` ${ctx.label}: ${ctx.raw.toLocaleString()} orders`
+                            }
+                        }
+                    }
+                }
+            });
+
+            // ── 4. Shipping Mode Late Rate (bar) — actual notebook values
+            const shippingColors = DATA_SHIPPING.map(d => {
+                if (d.late_rate >= 0.90) return '#dc2626';
+                if (d.late_rate >= 0.70) return '#ef4444';
+                if (d.late_rate >= 0.50) return '#f97316';
+                return '#fca5a5';
+            });
+            charts.shipping = new Chart(document.getElementById('chart-shipping-mode-risk'), {
+                type: 'bar',
+                data: {
+                    labels: DATA_SHIPPING.map(d => d.mode),
+                    datasets: [{
+                        label: 'Late Rate',
+                        data: DATA_SHIPPING.map(d => d.late_rate),
+                        backgroundColor: shippingColors,
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ` Late Rate: ${(ctx.raw * 100).toFixed(1)}%`
+                            }
+                        },
+                        annotation: {}
+                    },
+                    scales: {
+                        y: {
+                            max: 1.05,
+                            ticks: { callback: v => (v * 100).toFixed(0) + '%' }
+                        }
+                    }
+                },
+                plugins: [{
+                    id: 'avgLine',
+                    afterDraw(chart) {
+                        const { ctx, chartArea, scales } = chart;
+                        const y = scales.y.getPixelForValue(0.5);
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.setLineDash([6, 4]);
+                        ctx.strokeStyle = '#94a3b8';
+                        ctx.lineWidth = 1.5;
+                        ctx.moveTo(chartArea.left, y);
+                        ctx.lineTo(chartArea.right, y);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                        ctx.fillStyle = '#64748b';
+                        ctx.font = '11px Inter';
+                        ctx.fillText('Rata-rata (50%)', chartArea.left + 4, y - 4);
+                        ctx.restore();
+                    }
+                }]
+            });
+
+            // ── 5. Category Sales vs Demand (grouped bar + line)
+            charts.catDemand = new Chart(document.getElementById('chart-category-demand-sales'), {
+                type: 'bar',
+                data: {
+                    labels: DATA_CATEGORY.map(d => d.name),
+                    datasets: [
+                        {
+                            label: 'Total Sales ($)',
+                            data: DATA_CATEGORY.map(d => d.total_sales),
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 4,
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: 'Avg Demand Score',
+                            data: DATA_CATEGORY.map(d => d.avg_demand),
+                            borderColor: '#f97316',
+                            backgroundColor: '#f97316',
+                            type: 'line',
+                            yAxisID: 'y1',
+                            tension: 0.3,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', labels: { font: { size: 11 } } },
+                    },
+                    scales: {
+                        x: { ticks: { font: { size: 10 }, maxRotation: 40 } },
+                        y: {
+                            type: 'linear', position: 'left',
+                            ticks: { callback: v => '$' + (v/1000000).toFixed(1) + 'M' }
+                        },
+                        y1: {
+                            type: 'linear', position: 'right',
+                            grid: { drawOnChartArea: false },
+                            ticks: { callback: v => v.toLocaleString() }
+                        }
+                    }
+                }
+            });
+
+            // ── 6. Market Performance (grouped bar: late rate + total sales)
+            charts.market = new Chart(document.getElementById('chart-market-performance'), {
+                type: 'bar',
+                data: {
+                    labels: DATA_MARKET.map(d => d.market),
+                    datasets: [
+                        {
+                            label: 'Late Rate',
+                            data: DATA_MARKET.map(d => d.late_rate),
+                            backgroundColor: '#e11d48',
+                            borderRadius: 4,
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: 'Total Sales ($)',
+                            data: DATA_MARKET.map(d => d.total_sales),
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 4,
+                            yAxisID: 'y1',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } },
+                    scales: {
+                        y: {
+                            type: 'linear', position: 'left',
+                            min: 0.50, max: 0.60,
+                            ticks: { callback: v => (v*100).toFixed(1)+'%' }
+                        },
+                        y1: {
+                            type: 'linear', position: 'right',
+                            grid: { drawOnChartArea: false },
+                            ticks: { callback: v => '$'+(v/1000000).toFixed(0)+'M' }
+                        }
+                    }
+                }
+            });
+
+            // ── 7. Monthly Trends (dual-axis line)
+            charts.monthly = new Chart(document.getElementById('chart-monthly-trends'), {
+                type: 'line',
+                data: {
+                    labels: DATA_MONTHLY.map(d => d.month),
+                    datasets: [
+                        {
+                            label: 'Total Sales ($)',
+                            data: DATA_MONTHLY.map(d => d.total_sales),
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16,185,129,0.08)',
+                            fill: true,
+                            yAxisID: 'y',
+                            tension: 0.3,
+                            pointRadius: 3,
+                        },
+                        {
+                            label: 'Late Rate',
+                            data: DATA_MONTHLY.map(d => d.late_rate),
+                            borderColor: '#f43f5e',
+                            backgroundColor: 'transparent',
+                            yAxisID: 'y1',
+                            tension: 0.3,
+                            pointRadius: 3,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } },
+                    scales: {
+                        y: {
+                            type: 'linear', position: 'left',
+                            ticks: { callback: v => '$'+(v/1000000).toFixed(1)+'M' }
+                        },
+                        y1: {
+                            type: 'linear', position: 'right',
+                            min: 0.50, max: 0.60,
+                            grid: { drawOnChartArea: false },
+                            ticks: { callback: v => (v*100).toFixed(1)+'%' }
+                        }
+                    }
+                }
+            });
+
+            // ── 8. K-Means Cluster Distribution (doughnut)
+            charts.clusterDist = new Chart(document.getElementById('chart-cluster-dist'), {
+                type: 'doughnut',
+                data: {
+                    labels: DATA_CLUSTER.map(d => d.cluster),
+                    datasets: [{
+                        data: DATA_CLUSTER.map(d => d.count),
+                        backgroundColor: ['#6366f1', '#06b6d4', '#8b5cf6'],
+                        borderWidth: 2,
+                        borderColor: '#fff',
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { size: 11 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ` ${ctx.label}: ${ctx.raw.toLocaleString()} customers`
+                            }
+                        }
+                    }
+                }
+            });
+
+            // ── 9. Cluster Profile — grouped bar (Sales vs Demand Score normalized)
+            charts.clusterProfile = new Chart(document.getElementById('chart-cluster-profile'), {
+                type: 'bar',
+                data: {
+                    labels: DATA_CLUSTER.map(d => d.cluster),
+                    datasets: [
+                        {
+                            label: 'Avg Sales per Customer ($)',
+                            data: DATA_CLUSTER.map(d => d.sales),
+                            backgroundColor: '#6366f1',
+                            borderRadius: 4,
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: 'Avg Demand Score',
+                            data: DATA_CLUSTER.map(d => d.demand),
+                            backgroundColor: '#06b6d4',
+                            borderRadius: 4,
+                            yAxisID: 'y1',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } },
+                    scales: {
+                        y: {
+                            type: 'linear', position: 'left',
+                            ticks: { callback: v => '$'+v.toFixed(0) }
+                        },
+                        y1: {
+                            type: 'linear', position: 'right',
+                            grid: { drawOnChartArea: false },
+                            ticks: { callback: v => v.toLocaleString() }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ── Tab Switching ──────────────────────────────────────────────
+        function switchTab(tab) {
+            const isOverview = tab === 'overview';
+            document.getElementById('tab-overview').classList.toggle('hidden', !isOverview);
+            document.getElementById('tab-predictions').classList.toggle('hidden', isOverview);
+            document.getElementById('nav-overview').className = isOverview
+                ? "w-full flex items-center gap-3 px-3 py-2 rounded-lg bg-emerald-600 text-white font-medium transition-all"
+                : "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white font-medium transition-all";
+            document.getElementById('nav-predictions').className = !isOverview
+                ? "w-full flex items-center gap-3 px-3 py-2 rounded-lg bg-emerald-600 text-white font-medium transition-all"
+                : "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white font-medium transition-all";
+            document.getElementById('page-title').textContent = isOverview ? 'Overview' : 'AI Predictions';
+        }
+
+        // ── Server health check ────────────────────────────────────────
+        async function checkServer() {
+            const badge = document.getElementById('server-badge');
+            const banner = document.getElementById('server-banner');
+            try {
+                const res = await fetch('/api/data', { signal: AbortSignal.timeout(3000) });
+                if (res.ok) {
+                    badge.className = "text-xs px-2.5 py-1 bg-emerald-50 text-emerald-700 font-semibold rounded-full border border-emerald-200";
+                    badge.textContent = "";
+                    if (banner) banner.classList.add('hidden');
+                    return true;
+                }
+            } catch (_) {}
+            badge.className = "text-xs px-2.5 py-1 bg-rose-50 text-rose-700 font-semibold rounded-full border border-rose-200";
+            badge.textContent = "⚠️ Server offline";
+            return false;
+        }
+
+        // ── Predict Risk ───────────────────────────────────────────────
+        async function predictRisk(event) {
+            event.preventDefault();
+            const btn = document.getElementById('btn-predict-risk');
+            const resultDiv = document.getElementById('risk-result');
+            const label = document.getElementById('risk-label');
+            const desc = document.getElementById('risk-desc');
+            const progress = document.getElementById('risk-progress');
+
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block"></span><span>Calculating...</span>`;
+
+            const payload = {
+                shipping_mode:  document.getElementById('risk-shipping-mode').value,
+                order_month:    parseInt(document.getElementById('risk-month').value),
+                market:         document.getElementById('risk-market').value,
+                order_region:   document.getElementById('risk-region').value,
+                sales:          parseFloat(document.getElementById('risk-sales').value),
+                quantity:       parseInt(document.getElementById('risk-quantity').value),
+                discount_rate:  parseFloat(document.getElementById('risk-discount').value),
+                demand_score:   parseFloat(document.getElementById('risk-demand').value),
+            };
+
+            try {
+                const response = await fetch('/api/predict_risk', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.error) throw new Error(result.error);
+
+                resultDiv.classList.remove('hidden');
+                const pct = (result.probability * 100).toFixed(1);
+                label.innerText = result.prediction_label;
+                desc.innerText = `Probabilitas keterlambatan: ${pct}%`;
+                progress.style.width = `${pct}%`;
+
+                const isLate = result.prediction === 1;
+                resultDiv.className = `p-5 rounded-xl border flex flex-col items-center justify-center text-center space-y-2 ${isLate ? 'border-red-200 bg-red-50/70' : 'border-emerald-200 bg-emerald-50/70'}`;
+                label.className = `text-2xl font-bold ${isLate ? 'text-red-600' : 'text-emerald-600'}`;
+                progress.className = `h-full transition-all duration-700 rounded-full ${isLate ? 'bg-red-500' : 'bg-emerald-500'}`;
+            } catch (err) {
+                resultDiv.classList.remove('hidden');
+                resultDiv.className = "p-5 rounded-xl border border-rose-200 bg-rose-50 text-rose-900 flex flex-col items-center justify-center text-center space-y-2";
+                label.className = "text-xl font-bold text-rose-700";
+                label.innerText = "Prediction Error";
+                desc.innerText = err.message || "Pastikan Flask server (app.py) sudah berjalan.";
+                progress.style.width = "0%";
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<span>Calculate Risk Probability</span>`;
+            }
+        }
+
+        // ── Predict Cluster ────────────────────────────────────────────
+        async function predictCluster(event) {
+            event.preventDefault();
+            const btn = document.getElementById('btn-predict-cluster');
+            const resultDiv = document.getElementById('cluster-result');
+            const name = document.getElementById('cluster-name');
+            const desc = document.getElementById('cluster-desc');
+
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block"></span><span>Mengklasifikasi...</span>`;
+
+            const payload = {
+                sales_per_customer: parseFloat(document.getElementById('cluster-sales').value),
+                profit_ratio:       parseFloat(document.getElementById('cluster-profit').value),
+                demand_score:       parseFloat(document.getElementById('cluster-demand').value),
+            };
+
+            try {
+                const response = await fetch('/api/predict_cluster', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.error) throw new Error(result.error);
+
+                resultDiv.classList.remove('hidden');
+                name.innerText = result.profile.name;
+                desc.innerText = result.profile.desc;
+
+                const themes = ["border-indigo-200 bg-indigo-50/70","border-cyan-200 bg-cyan-50/70","border-purple-200 bg-purple-50/70"];
+                const textThemes = ["text-xl font-bold text-indigo-700","text-xl font-bold text-cyan-700","text-xl font-bold text-purple-700"];
+                resultDiv.className = `p-5 rounded-xl border flex flex-col items-center justify-center text-center space-y-2 ${themes[result.cluster] || themes[0]}`;
+                name.className = textThemes[result.cluster] || textThemes[0];
+            } catch (err) {
+                resultDiv.classList.remove('hidden');
+                resultDiv.className = "p-5 rounded-xl border border-rose-200 bg-rose-50 text-rose-900 flex flex-col items-center justify-center text-center space-y-2";
+                name.className = "text-xl font-bold text-rose-700";
+                name.innerText = "Classification Error";
+                desc.innerText = err.message || "Pastikan Flask server (app.py) sudah berjalan.";
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<span>Predict Customer Cluster</span>`;
+            }
+        }
+
+        // ── Init ───────────────────────────────────────────────────────
+        window.addEventListener('DOMContentLoaded', () => {
+            renderAllCharts();
+            checkServer();
+        });
+    </script>
+</body>
+</html>
